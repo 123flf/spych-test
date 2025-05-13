@@ -12,3 +12,211 @@
     <div id="quiz-container"></div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار نفسي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4e4e4e;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4e9fbf;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        .button-container button:hover {
+            background-color: #3b7a92;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-align: right;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .option {
+            margin: 10px 0;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #4e9fbf;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #3b7a92;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .result p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>اختبار التحليل النفسي</h1>
+        <p>يرجى اختيار أحد الاختبارات التالية:</p>
+
+        <div class="button-container">
+            <button onclick="startFearTest()">ما هو الشيء الذي تخاف منه داخلك؟</button>
+            <button onclick="startPatternTest()">الحالة النفسية المتعلقة بالأنماط</button>
+            <button onclick="startHelpTest()">مساعدة في تحديد النمط الشخصي</button> <!-- زر المساعدة في تحديد النمط -->
+        </div>
+
+        <!-- اختبار الخوف الداخلي -->
+        <div id="fearTest" class="test" style="display:none;">
+            <h2>اختبار الخوف الداخلي</h2>
+            <p>أجب عن الأسئلة التالية بصدق:</p>
+            <div class="question">
+                <label for="q1">ما هو الشيء الذي تشعر بالخوف منه في داخلك ولكنك تخفيه؟</label>
+                <textarea id="fear1" placeholder="أدخل إجابتك هنا..."></textarea>
+            </div>
+
+            <div class="question">
+                <label for="q2">هل تخشى من فقدان السيطرة؟ ولماذا؟</label>
+                <textarea id="fear2" placeholder="أدخل إجابتك هنا..."></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="submitFearTest()">إظهار النتيجة</button>
+
+            <div id="fearResult" class="result" style="display:none;">
+                <h3>النتيجة:</h3>
+                <p id="fearAnalysis"></p>
+            </div>
+        </div>
+
+        <!-- اختبار الحالة النفسية المرتبطة بالأنماط -->
+        <div id="patternTest" class="test" style="display:none;">
+            <h2>اختبار الحالة النفسية المرتبطة بالأنماط</h2>
+            <p>أجب عن الأسئلة التالية بصدق وفقًا لنمطك الشخصي:</p>
+            <div class="question">
+                <label for="q3">ما هو أكثر شيء يسبب لك التوتر في حياتك اليومية؟</label>
+                <textarea id="pattern1" placeholder="أدخل إجابتك هنا..."></textarea>
+            </div>
+
+            <div class="question">
+                <label for="q4">هل تشعر أنك في صراع داخلي بين ما تريده وبين ما يجب عليك فعله؟</label>
+                <textarea id="pattern2" placeholder="أدخل إجابتك هنا..."></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="submitPatternTest()">إظهار النتيجة</button>
+
+            <div id="patternResult" class="result" style="display:none;">
+                <h3>النتيجة:</h3>
+                <p id="patternAnalysis"></p>
+            </div>
+        </div>
+
+        <!-- اختبار تحديد النمط الشخصي -->
+        <div id="helpTest" class="test" style="display:none;">
+            <h2>اختبار تحديد النمط الشخصي</h2>
+            <p>اختر الإجابة التي تعكس شخصيتك أكثر:</p>
+            <div class="question">
+                <label>هل تفضل التخطيط المسبق أم عيش اللحظة؟</label>
+                <div>
+                    <input type="radio" id="planning" name="helpTest" value="planning">
+                    <label for="planning">التخطيط المسبق</label>
+                </div>
+                <div>
+                    <input type="radio" id="spontaneous" name="helpTest" value="spontaneous">
+                    <label for="spontaneous">عيش اللحظة</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <label>هل تستمد طاقتك من التفاعل الاجتماعي أم من العزلة؟</label>
+                <div>
+                    <input type="radio" id="extroverted" name="helpTest" value="extroverted">
+                    <label for="extroverted">التفاعل الاجتماعي</label>
+                </div>
+                <div>
+                    <input type="radio" id="introverted" name="helpTest" value="introverted">
+                    <label for="introverted">العزلة</label>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="submitHelpTest()">إظهار النتيجة</button>
+
+            <div id="helpResult" class="result" style="display:none;">
+                <h3>النتيجة:</h3>
+                <p id="helpAnalysis"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function startFearTest() {
+            document.getElementById("fearTest").style.display = "block";
+            document.getElementById("patternTest").style.display = "none";
+            document.getElementById("helpTest").style.display = "none";
+        }
+
+        function startPatternTest() {
+            document.getElementById("patternTest").style.display = "block";
+            document.getElementById("fearTest").style.display = "none";
+            document.getElementById("helpTest").style.display = "none";
+        }
+
+        function startHelpTest() {
+            document.getElementById("helpTest").style.display = "block";
+            document.getElementById("fearTest").style.display = "none";
+            document.getElementById("patternTest").style.display = "none";
+        }
+
+        function
