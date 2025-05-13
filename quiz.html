@@ -115,7 +115,7 @@
         <div class="button-container">
             <button onclick="startFearTest()">ما هو الشيء الذي تخاف منه داخلك؟</button>
             <button onclick="startPatternTest()">الحالة النفسية المتعلقة بالأنماط</button>
-            <button onclick="startHelpTest()">مساعدة في تحديد النمط الشخصي</button> <!-- زر المساعدة في تحديد النمط -->
+            <button onclick="startIdentifyPatternTest()">اعرف نمطك</button> <!-- زر لتحديد النمط -->
         </div>
 
         <!-- اختبار الخوف الداخلي -->
@@ -163,17 +163,17 @@
         </div>
 
         <!-- اختبار تحديد النمط الشخصي -->
-        <div id="helpTest" class="test" style="display:none;">
-            <h2>اختبار تحديد النمط الشخصي</h2>
+        <div id="identifyPatternTest" class="test" style="display:none;">
+            <h2>اعرف نمطك</h2>
             <p>اختر الإجابة التي تعكس شخصيتك أكثر:</p>
             <div class="question">
                 <label>هل تفضل التخطيط المسبق أم عيش اللحظة؟</label>
                 <div>
-                    <input type="radio" id="planning" name="helpTest" value="planning">
+                    <input type="radio" id="planning" name="identifyPatternTest" value="planning">
                     <label for="planning">التخطيط المسبق</label>
                 </div>
                 <div>
-                    <input type="radio" id="spontaneous" name="helpTest" value="spontaneous">
+                    <input type="radio" id="spontaneous" name="identifyPatternTest" value="spontaneous">
                     <label for="spontaneous">عيش اللحظة</label>
                 </div>
             </div>
@@ -181,20 +181,20 @@
             <div class="question">
                 <label>هل تستمد طاقتك من التفاعل الاجتماعي أم من العزلة؟</label>
                 <div>
-                    <input type="radio" id="extroverted" name="helpTest" value="extroverted">
+                    <input type="radio" id="extroverted" name="identifyPatternTest" value="extroverted">
                     <label for="extroverted">التفاعل الاجتماعي</label>
                 </div>
                 <div>
-                    <input type="radio" id="introverted" name="helpTest" value="introverted">
+                    <input type="radio" id="introverted" name="identifyPatternTest" value="introverted">
                     <label for="introverted">العزلة</label>
                 </div>
             </div>
 
-            <button class="submit-btn" onclick="submitHelpTest()">إظهار النتيجة</button>
+            <button class="submit-btn" onclick="submitIdentifyPatternTest()">إظهار النتيجة</button>
 
-            <div id="helpResult" class="result" style="display:none;">
+            <div id="identifyPatternResult" class="result" style="display:none;">
                 <h3>النتيجة:</h3>
-                <p id="helpAnalysis"></p>
+                <p id="identifyPatternAnalysis"></p>
             </div>
         </div>
 
@@ -204,19 +204,71 @@
         function startFearTest() {
             document.getElementById("fearTest").style.display = "block";
             document.getElementById("patternTest").style.display = "none";
-            document.getElementById("helpTest").style.display = "none";
+            document.getElementById("identifyPatternTest").style.display = "none";
         }
 
         function startPatternTest() {
             document.getElementById("patternTest").style.display = "block";
             document.getElementById("fearTest").style.display = "none";
-            document.getElementById("helpTest").style.display = "none";
+            document.getElementById("identifyPatternTest").style.display = "none";
         }
 
-        function startHelpTest() {
-            document.getElementById("helpTest").style.display = "block";
+        function startIdentifyPatternTest() {
+            document.getElementById("identifyPatternTest").style.display = "block";
             document.getElementById("fearTest").style.display = "none";
             document.getElementById("patternTest").style.display = "none";
         }
 
-        function
+        function submitFearTest() {
+            let q1 = document.getElementById("fear1").value;
+            let q2 = document.getElementById("fear2").value;
+
+            let result = analyzeFearTest(q1, q2);
+            document.getElementById("fearAnalysis").innerText = result;
+            document.getElementById("fearResult").style.display = "block";
+        }
+
+        function submitPatternTest() {
+            let q1 = document.getElementById("pattern1").value;
+            let q2 = document.getElementById("pattern2").value;
+
+            let result = analyzePatternTest(q1, q2);
+            document.getElementById("patternAnalysis").innerText = result;
+            document.getElementById("patternResult").style.display = "block";
+        }
+
+        function submitIdentifyPatternTest() {
+            let q1 = document.querySelector('input[name="identifyPatternTest"]:checked');
+            let analysis = "";
+            if (q1 && q1.value === "planning") {
+                analysis += "قد تكون شخصية منظمة تحب التخطيط المسبق.";
+            } else if (q1 && q1.value === "spontaneous") {
+                analysis += "قد تكون شخصية تحب العيش في اللحظة.";
+            }
+            if (q1 && q1.value === "extroverted") {
+                analysis += " أنت تستمد طاقتك من التفاعل الاجتماعي.";
+            } else if (q1 && q1.value === "introverted") {
+                analysis += " أنت تستمد طاقتك من العزلة.";
+            }
+            document.getElementById("identifyPatternAnalysis").innerText = analysis;
+            document.getElementById("identifyPatternResult").style.display = "block";
+        }
+
+        function analyzeFearTest(q1, q2) {
+            let analysis = "تحليلك يظهر أن خوفك يتجلى في محاولة تجنب المواقف التي قد تشعر فيها بفقدان السيطرة. ";
+            if (q1 && q2) {
+                analysis += "أنت تميل إلى إخفاء مخاوفك الداخلية خوفًا من أن يظهر ضعفك.";
+            }
+            return analysis;
+        }
+
+        function analyzePatternTest(q1, q2) {
+            let analysis = "تظهر إجاباتك أنك قد تكون في صراع داخلي بين ما تريد فعله وما يجب عليك فعله. ";
+            if (q1 && q2) {
+                analysis += "قد تشعر بالتوتر الناتج عن محاولتك التوازن بين الالتزامات الاجتماعية واحتياجاتك الشخصية.";
+            }
+            return analysis;
+        }
+    </script>
+</body>
+</html>
