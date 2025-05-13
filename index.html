@@ -1,13 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>اختبارك النفسي</title>
+    <title>اختبار تحليل الشخصية</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>مرحبًا بك في اختبارك النفسي</h1>
-    <a href="quiz.html">ابدأ الاختبار</a>
+    <div id="quiz-container">
+        <h2>اختبار تحليل الشخصية</h2>
+        <div id="style-selection">
+            <label for="style-select">اختر النمط:</label>
+            <select id="style-select">
+                <option value="INTJ">INTJ</option>
+                <option value="INFP">INFP</option>
+                <option value="ENFP">ENFP</option>
+                <option value="ISTJ">ISTJ</option>
+                <!-- أضف باقي الأنماط -->
+            </select>
+        </div>
+        <div id="answer-type">
+            <label for="answer-type-select">نوع الإجابات:</label>
+            <select id="answer-type-select">
+                <option value="normal">إجابات عادية</option>
+                <option value="brutal">إجابات لا ترحم</option>
+            </select>
+        </div>
+        <p><strong>ملاحظة:</strong> الكذب في الإجابات لا يؤدي إلا إلى نتائج لا تخصك.</p>
+        <div id="main-content">
+            <div id="image-box">
+                <img id="personality-image" src="images/default.png" alt="صورة النمط" />
+            </div>
+            <div id="questionnaire">
+                <form id="question-form">
+                    <div id="questions-container" class="frame"></div>
+                    <button type="submit" class="fancy-button">إظهار النتيجة</button>
+                </form>
+                <div id="result" class="frame" style="display:none;">
+                    <p id="result-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
